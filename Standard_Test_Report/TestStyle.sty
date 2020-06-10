@@ -1,0 +1,443 @@
+%----------------------------------------------------------------------------------------
+%	Packages
+%----------------------------------------------------------------------------------------
+
+\usepackage[margin=3cm]{geometry}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{times}
+\usepackage[utf8]{inputenc}
+\usepackage{listings} % Required for inserting code snippets
+\usepackage[usenames,dvipsnames]{color} % Required for specifying custom colors and referring to colors by name
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{colortbl}
+\usepackage{gensymb}
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{gensymb}
+\usepackage{booktabs}
+\usepackage{bigstrut}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{datatool}
+\usepackage{xparse}
+\usepackage{float} %forces pictures/tables/figures to be in their respective subsections.
+\usepackage{titlesec} % Paragraphs to \subsubsubsections
+\usepackage{pgfplotstable,pythontex}
+\usepackage{grffile} %include graphics accepts spaces in file name.
+\usepgfplotslibrary{colorbrewer}
+\usepackage{chngcntr}
+%\counterwithin{figure}{subsubsection}
+\usepackage{pgfkeys,bytefield}
+\usepackage{pdfpages}
+\usepackage{attachfile}
+
+\usepackage[framed,autolinebreaks,useliterate]{mcode}
+
+\usepackage{siunitx}
+\usepackage[american,cuteinductors,smartlabels]{circuitikz}
+\usetikzlibrary{calc}
+\ctikzset{bipoles/thickness=1}
+\ctikzset{bipoles/length=0.8cm}
+\ctikzset{bipoles/diode/height=.375}
+\ctikzset{bipoles/diode/width=.3}
+\ctikzset{tripoles/thyristor/height=.8}
+\ctikzset{tripoles/thyristor/width=1}
+\ctikzset{bipoles/vsourceam/height/.initial=.7}
+\ctikzset{bipoles/vsourceam/width/.initial=.7}
+\tikzstyle{every node}=[font=\small]
+\tikzstyle{every path}=[line width=0.8pt,line cap=round,line join=round]
+\ctikzset{tripoles/mos style/arrows}
+
+%----------------------------------------------------------------------------------------
+%	Clickable table of contents setup
+%----------------------------------------------------------------------------------------
+
+\hypersetup{
+    colorlinks,
+    citecolor=red,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black,
+	linktoc=all
+}
+
+
+% =========================================================================================================
+% Title Page
+% =========================================================================================================
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Command to make the lines in the title page
+\title{
+\begin{center}
+\includegraphics[width=0.2\textwidth]{logo}
+\HRule \\[0.4cm]
+{\Huge \bfseries \reportTitle \\[0.5cm] \Large\subtitle}\\[0.4cm] % Degree
+\HRule \\[0.4cm]
+{\small \nameone\\
+\nametwo \\
+Revision: \reportrevision}
+\end{center}
+}
+% =========================================================================================================
+% Document Setup
+% =========================================================================================================
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+ %(This matches ConTeXt defaults)
+% ------------------------
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+% ------------------------
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+%\textheight=9.0in
+\headsep=0.25in
+% ------------------------
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\chead{\reportTitle} % Top center header
+\rhead{\includegraphics[width=0.7cm]{logo}} % Top right header
+%\lhead{\hyperlink{toc}{\color{blue}Table of Contents}}
+% \lhead{\small Model Name: \nameone}
+\lfoot{\small \leftfooterone\\ \leftfootertwo\\ \leftfooterthree} % Bottom left footer
+% \cfoot{\textcolor{red}{An NDA with Artesyn must be signed before viewing}} % Bottom center footer
+\cfoot{\textcolor{red}{Confidential}} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+%\renewcommand\headheight{24pt} % Size of the header height
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+% ------------------------
+
+
+% =========================================================================================================
+% Create the \subsubsubsection{<name>} command
+% =========================================================================================================
+
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\makeatletter
+\def\toclevel@subsubsubsection{4}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\makeatother
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+% =========================================================================================================
+% Insert Picture Commands
+% =========================================================================================================
+% ------------------------
+
+% Create the \pic{<filename>} {<caption>} command
+\newcommand{\pic}[2]{
+\begin{figure}[H]
+  \caption{#2}
+  \centering
+    \includegraphics[width=0.8\textwidth]{#1}
+	\label{fig:#2}
+\end{figure}
+}
+% ------------------------
+
+% Create the \octavepic{<filename>} {<caption>} command
+\newcommand{\octavepic}[2]{
+\begin{figure}[H]
+  % \caption{#2}
+  \centering
+    \includegraphics[width=0.8\textwidth]{#1}
+	\label{fig:#2}
+\end{figure}
+}
+% ------------------------
+
+% Create the \smallpic{<filename>} {<caption>} command
+\newcommand{\smallpic}[2]{
+\begin{figure}[H]
+  \caption{#2}
+  \centering
+    \includegraphics[width=0.5\textwidth]{#1}
+	\label{fig:#2}
+\end{figure}
+}
+
+% =========================================================================================================
+% Cropped PDFs
+% =========================================================================================================
+	\newcommand{\includeCroppedPdf}[2][]{%
+    \immediate\write18{pdfcrop "#2" "#2"}%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{#2}
+	\end{figure}}
+
+% =========================================================================================================
+% CSV Table
+% =========================================================================================================
+
+\pgfplotstableset{
+    col sep=comma,
+	begin table=\begin{longtable},
+	end table=\end{longtable},
+    every head row/.style={after row=\hline\endhead,
+	typeset cell/.code={
+            \ifnum\pgfplotstablecol=\pgfplotstablecols
+            \pgfkeyssetvalue{/pgfplots/table/@cell content}{\\}%
+            \else
+            \pgfkeyssetvalue{/pgfplots/table/@cell content}{\rotatebox{90}{##1}&}%
+            \fi
+            }},
+    every last row/.style={after row=\hline},
+    columns/Link/.style={
+		postproc cell content/.style={
+		@cell content=
+		\if\relax\detokenize{##1}\relax
+			##1
+		\else
+			\hyperref[fig:##1]{\color{blue}fig \ref*{fig:##1}}
+		\fi
+		}
+	},
+	string type,
+	string replace*={pass}{\textcolor{green}{Pass}},
+	string replace*={Pass}{\textcolor{green}{Pass}},
+	string replace*={fail}{\textcolor{red}{Fail}},
+	string replace*={Fail}{\textcolor{red}{Fail}},
+}
+
+
+\pgfplotstableset{mystyle3/.style={
+	begin table=\begin{longtable},
+	end table=\end{longtable},
+    every head row/.style={after row=\hline\endhead},
+    every last row/.style={after row=\hline},
+	}
+}
+
+\definecolor{lightgrey}{rgb}{0.96, 0.96, 0.96}
+
+\pgfplotstableset{mystyle2/.style={
+	begin table=\begin{tabular},
+	end table=\end{tabular},
+	every head row/.style={
+	before row={
+	\hline
+	\rowcolor{lightgrey}
+	},
+	after row=\hline,
+	},
+	every last row/.style={
+	after row=\hline},
+	every first column/.style={
+column type/.add={|}{ }
+},
+every last column/.style={
+column type/.add={ }{|}
+}}}
+
+\newcommand{\csv}[2]{
+    \pgfplotstabletypeset[mystyle3,every head row/.append style={before row={\caption{#2}\\\hline}}]{#1}
+}
+
+\newcommand{\statetablecsv}[2]{
+    \setlength{\tabcolsep}{1pt}
+    \tiny
+    \pgfplotstabletypeset[every head row/.append style={before row={\caption{#2}\\\hline}}]{#1}
+	\normalsize
+	\setlength{\tabcolsep}{6pt}
+}
+
+\newcommand{\smallcsv}[1]{
+    \pgfplotstabletypeset[mystyle2]{#1}
+}
+
+% =========================================================================================================
+% Plots
+% =========================================================================================================
+
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\pgfplotsset{width=0.7\textwidth}
+
+
+\newcommand{\plotfile}[2]{
+\begin{figure}[H]
+\caption{#2}
+\label{plotfile:#2}
+\centering
+\begin{tikzpicture}
+\pgfplotstableread[col sep=comma]{#1}{\table}
+\pgfplotstablegetcolumnnamebyindex{0}\of{\table}\to{\col}
+\begin{axis}[legend pos=outer north east,cycle multi list={Set1-6},thick,grid = major,xlabel=\col]
+    \pgfplotstableread[col sep=comma]{#1}{\table}
+    \pgfplotstablegetcolsof{\table}
+    \pgfmathtruncatemacro\numberofcols{\pgfplotsretval-1}
+    \pgfplotsinvokeforeach{1,...,\numberofcols}{
+        \pgfplotstablegetcolumnnamebyindex{##1}\of{\table}\to{\colname}
+		\IfSubStr{\colname}{Spec}
+		{
+		\addplot [color=red,,dashed,thick,opacity={0.5}] table [y index=##1] {\table};
+		\addlegendentryexpanded{\colname}
+		}
+		{
+		\addplot table [y index=##1] {\table};
+		\addlegendentryexpanded{\colname}
+		}
+    }
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+}
+
+
+% =========================================================================================================
+% PMBUS Testing Commands
+% =========================================================================================================
+
+	\newcommand{\setvalue}[1]{\pgfkeys{/variables/#1}}
+\newcommand{\getvalue}[1]{\pgfkeysvalueof{/variables/#1}}
+\newcommand{\declare}[1]{%
+ \pgfkeys{
+  /variables/#1.is family,
+  /variables/#1.unknown/.style = {\pgfkeyscurrentpath/\pgfkeyscurrentname/.initial = ##1}
+ }%
+}
+
+\declare{}
+
+\newcommand{\colorbitbox}[3]{%
+\rlap{\bitbox{#2}{\color{#1}\rule{\width}{\height}}}%
+\bitbox{#2}{#3}}
+
+\definecolor{lightgray}{gray}{0.7}
+\definecolor{darkgreen}{rgb}{0.05, 0.5, 0.06}
+\definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
+\definecolor{darkblue}{rgb}{0.0, 0.18, 0.39}
+%%% The "real" document content comes below...
+
+\setvalue{innerloop = 0}
+\setvalue{PMBUSSEQ = 0}
+
+\usepackage{adjustbox}
+\newenvironment{FitToWidth}[1][\textwidth]{%
+\begin{adjustbox}{width=#1,center}
+}
+{\end{adjustbox}}
+
+\newcommand{\PMBusheader}[0]{%
+\begin{FitToWidth}[0.9\textwidth]
+\begin{bytefield}[bitwidth=auto]{66}
+
+\bitbox{40}{\Large Commands Sent to UUT 0xB0}
+\bitbox{40}{\Large Expected Readout}
+\bitbox{40}{\Large Actual Results}\\
+\colorbitbox{lightgray}{20}{\Large Command}
+\colorbitbox{lightgray}{20}{\Large Data}
+\colorbitbox{lightgray}{20}{\Large Command}
+\colorbitbox{lightgray}{20}{\Large Readout}
+\colorbitbox{lightgray}{39}{\Large Readout}
+\colorbitbox{lightgray}{1}{\rotatebox{90}{\small OK}}\\
+}
+
+
+
+\newcommand{\PMBusSequence}[1]{%
+\DTLloaddb{stores}{#1}
+
+\begin{enumerate}
+\DTLforeach{stores}{%
+\CMD=CMD, \data=data,\ReadCMD=ReadCMD, \Readout=Readout,\ActReadout=ActReadout,\score=Pass}{%
+
+\DTLifstringeq {\CMD} {step} {
+	\DTLifstringeq{\getvalue{innerloop}}  {1}  {
+		\DTLifstringeq{\getvalue{PMBUSSEQ}}{1}{
+			\end{bytefield}\end{FitToWidth} \end{enumerate} \item \data \setvalue{innerloop = 0}  \setvalue{PMBUSSEQ = 0}
+		}
+		{
+			\end{enumerate} \item \data \setvalue{innerloop = 0}
+		}
+	}
+	{
+		\item \data
+	}
+}
+%{
+	{\DTLifstringeq{\CMD}{substep}{
+		\DTLifstringeq{\getvalue{innerloop}}{0}{
+			\begin{enumerate} \item \data \setvalue{innerloop = 1}
+		}
+		{
+			\DTLifstringeq{\getvalue{PMBUSSEQ}}{1}{
+				\end{bytefield} \end{FitToWidth}  \setvalue{PMBUSSEQ = 0} \item \data
+			}
+			{
+				\item \data
+			}
+		}
+	}
+	%{
+		{\DTLifstringeq{\getvalue{PMBUSSEQ}}{0}{
+			\setvalue{PMBUSSEQ = 1}\PMBusheader
+			\bitbox{20}{\large \CMD}
+			\bitbox{20}{\Large \data}
+			\bitbox{20}{\large \ReadCMD}
+			\bitbox{20}{\Large \Readout}
+			\bitbox{39}{\Large \color{darkblue}\ActReadout}
+			\DTLifstringeq{\score}{p}{\colorbitbox{green}{1}{\color{darkgreen}P}\\}{\colorbitbox{red}{1}{\color{darkred}F}\\}}
+			{\bitbox{20}{\large \CMD}
+			\bitbox{20}{\Large \data}
+			\bitbox{20}{\large \ReadCMD}
+			\bitbox{20}{\Large \Readout}
+			\bitbox{39}{\Large \color{darkblue}\ActReadout}
+			\DTLifstringeq{\score}{p}{\colorbitbox{green}{1}{\color{darkgreen}P}\\}{\colorbitbox{red}{1}{\color{darkred}F}\\}
+		}
+	}
+}
+\DTLiflastrow{\DTLifstringeq{\getvalue{PMBUSSEQ}}{1}{\end{bytefield}\end{FitToWidth} }}{}
+\DTLiflastrow{\DTLifstringeq{\getvalue{innerloop}}{1}{\end{enumerate} }}{}
+}
+\end{enumerate}
+\DTLifstringeq{\getvalue{innerloop}}{1}{\end{enumerate} }{}
+\DTLdeletedb{stores}
+}
+% =========================================================================================================
+%
+% =========================================================================================================
+
+%----------------------------------------------------------------------------------------
+%	Code snippet setup
+%----------------------------------------------------------------------------------------
+
+\lstnewenvironment{code}{}{}
