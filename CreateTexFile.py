@@ -2,7 +2,7 @@ import os,re,sys
 #import tex
 #import oct
 #import spec
-def createFile(fPath):
+def createFile(fPath,ReportSettings):
     TexFile = open('Test_Report.tex','w')
 
     TexFile.write(
@@ -33,8 +33,21 @@ def createFile(fPath):
     %----------------------------------------------------------------------------------------
     %	Load Document name Info
     %----------------------------------------------------------------------------------------
+    """)
 
-    \input{TitleInfo.tex}
+    TexFile.write("\\newcommand{\\reportTitle}{%s}"%ReportSettings["Report_Title"])
+    TexFile.write("\\newcommand{\\subtitle}{%s}"%ReportSettings["Report_Subtitle"])
+    TexFile.write("\\newcommand{\\reportrevision}{%s}"%ReportSettings["Report_Revision"])
+    TexFile.write("\\newcommand{\\nameone}{}")
+    TexFile.write("\\newcommand{\\nametwo}{}")
+    TexFile.write("\\newcommand{\\leftfooterone}{%s}"%ReportSettings["Report_footer_1"])
+    TexFile.write("\\newcommand{\\leftfooterthree}{%s}"%ReportSettings["Report_footer_3"])
+    TexFile.write("\\newcommand{\\leftfootertwo}{%s}"%ReportSettings["Report_footer_2"])
+
+
+    TexFile.write(
+        r"""
+    %\input{TitleInfo.tex}
     \setpythontexcontext{path=\MyPath}
 
 
@@ -64,7 +77,7 @@ def createFile(fPath):
     sectionnumber = 0
     specfilepath = str(fPath)
     filepath = os.path.join(str(fPath),"data")
-    TexFile.write(r"\newcommand*{\MyPath}{"+filepath+"}" + os.linesep)
+    TexFile.write(r'\newcommand*{\MyPath}{' + filepath + "}" + os.linesep)
     directories = [ name for name in os.listdir(filepath) if os.path.isdir(os.path.join(filepath, name)) ]
     directoriesStripedName = [ re.sub('\(.*?\)','',name).strip() for name in os.listdir(filepath) if os.path.isdir(os.path.join(filepath, name)) ]
     files = [ name for name in os.listdir(specfilepath) if not os.path.isdir(os.path.join(specfilepath, name)) ]

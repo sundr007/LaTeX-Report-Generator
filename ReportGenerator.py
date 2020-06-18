@@ -18,6 +18,12 @@ class report:
             #to demonstrate
             self.path = 'notSet'
             self.TOC = []
+            self.Report_Title       = ""
+            self.Report_Subtitle    = ""
+            self.Report_Revision    = ""
+            self.Report_footer_1    = ""
+            self.Report_footer_2    = ""
+            self.Report_footer_3    = ""
             ##############
 
             self.saveSettings()
@@ -49,6 +55,29 @@ class report:
             file.close()
         if not os.path.exists(dataFolder):
             os.makedirs(dataFolder)
+
+    def loadReportSettings(self,
+                                Report_Title,
+                                Report_Subtitle,
+                                Report_Revision,
+                                Report_footer_1,
+                                Report_footer_2,
+                                Report_footer_3):
+        self.Report_Title = Report_Title
+        self.Report_Subtitle = Report_Subtitle
+        self.Report_Revision = Report_Revision
+        self.Report_footer_1 = Report_footer_1
+        self.Report_footer_2 = Report_footer_2
+        self.Report_footer_3 = Report_footer_3
+
+    def getReportSettings(self):
+        return {    "Report_Title":self.Report_Title,
+                    "Report_Subtitle":self.Report_Subtitle,
+                    "Report_Revision":self.Report_Revision,
+                    "Report_footer_1":self.Report_footer_1,
+                    "Report_footer_2":self.Report_footer_2,
+                    "Report_footer_3":self.Report_footer_3}
+
     def loadTOC(self):
         TOCfile = os.path.join(self.path,'TOC.tex')
         if os.path.exists(TOCfile):
@@ -82,7 +111,7 @@ class report:
                 print(path + " not empty")
     def CreateReport(self):
         title = "Test_Report"
-        CreateTexFile.createFile(self.path)
+        CreateTexFile.createFile(self.path,self.getReportSettings())
         destinationPath = os.path.join(os.getcwd(),"Standard_Test_Report","Test_Report.tex")
         outputFile = os.path.join(os.getcwd(),"Standard_Test_Report","Test_Report.pdf")
         shutil.move("Test_Report.tex",destinationPath)
