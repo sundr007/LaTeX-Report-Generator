@@ -87,7 +87,14 @@ class report:
                 if "section{" in line:
                     name  = re.findall('{([^"]*)}', line)[0]
                     level = line.count("sub")
-                    self.TOC.append({"name":name,"level":level})
+                    filepath = os.path.join(self.path,"data",name)
+                    if os.path.exists(filepath):
+                        exists="Y"
+                        nFiles=  len(os.listdir(filepath))
+                    else:
+                        exists=""
+                        nFiles=  0
+                    self.TOC.append({"name":name,"level":level,"nFiles":nFiles,"exists":exists})
 
     def createFoldersFromTOC(self):
         self.loadTOC()
