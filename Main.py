@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 import os
-import mbox
 
 from ReportGenerator import report
 
