@@ -10,11 +10,15 @@ class App:
     def __init__(self):
         scriptPath = os.path.dirname(os.path.abspath(__file__))
         os.chdir(scriptPath)
+        self.tree = ""
         self.report = report()
 
         print(self.report.getPath(),flush=True)
         self.window = tk.Tk()
-        self.window.geometry("500x600")
+        # getting screen's height in pixels
+        height = self.window.winfo_screenheight()
+
+        self.window.geometry("450x%s+0+0"%height)
 
         # create a toplevel menu
         menubar = tk.Menu(self.window)
@@ -26,7 +30,7 @@ class App:
         filemenu.add_command(label="Save", command=self.report.saveSettings)
         filemenu.add_separator()
         filemenu.add_command(label="Create Folders from TOC", command=self.report.createFoldersFromTOC)
-        filemenu.add_command(label="Cleanup Folders", command=self.report.DeleteUnusedFolders)
+        filemenu.add_command(label="Delete Empty Folders", command=self.report.DeleteUnusedFolders)
         filemenu.add_separator()
         filemenu.add_command(label="Exit", command=self.quit)
         menubar.add_cascade(label="File", menu=filemenu)
@@ -74,6 +78,7 @@ class App:
                 inputDialog.Footer2    ,
                 inputDialog.Footer3    ,
         )
+        self.report.saveSettings()
 
     def OnDoubleClick(self,event):
         item = self.tree.selection()[0]
@@ -93,7 +98,10 @@ class App:
 
     def updateTreeWithTOC(self):
         TOC = self.report.getTOC()
-        self.tree = ttk.Treeview(self.window)
+        if self.tree!="":
+            self.tree.delete(*self.tree.get_children())
+        else:
+            self.tree = ttk.Treeview(self.window)
 
         self.tree["columns"]=("one","two")
         self.tree.column("#0", width=270, minwidth=270)
@@ -114,6 +122,8 @@ class App:
                 self.tree.insert(level2, "end", None,open=True, text=section["name"], values=(section["exists"],section["nFiles"]))
         self.tree.bind("<Double-1>", self.OnDoubleClick)
         self.tree.pack(side=tk.TOP,fill=tk.X)
+# update the tree every 3 seconds
+        self.tree.after(3000,self.updateTreeWithTOC)
 
 if __name__ == "__main__":
     app = App()

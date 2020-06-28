@@ -3,6 +3,7 @@ import traceback
 import os,re, shutil
 import CreateTexFile
 import subprocess
+from datetime import datetime
 
 class report:
     def __init__(self):
@@ -117,7 +118,11 @@ class report:
             except:
                 print(path + " not empty")
     def CreateReport(self):
-        title = "Test_Report"
+        title = "%s-%s-%s-%s" % ( datetime.today().strftime('%Y-%m-%d'),
+                            self.getReportSettings()["Report_Title"],
+                            self.getReportSettings()["Report_Subtitle"],
+                            self.getReportSettings()["Report_Revision"],
+                            )
         CreateTexFile.createFile(self.path,self.getReportSettings())
         destinationPath = os.path.join(os.getcwd(),"Standard_Test_Report","Test_Report.tex")
         outputFile = os.path.join(os.getcwd(),"Standard_Test_Report","Test_Report.pdf")
